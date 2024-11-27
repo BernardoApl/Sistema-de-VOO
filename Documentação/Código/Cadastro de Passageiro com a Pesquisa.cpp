@@ -1,9 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <limits>  // Para limpar o buffer de entrada
+#include <iostream> // entrada e saída de dados
+#include <fstream>  // manipulação de arquivos (leitura e escrita)
+#include <vector>   // container de vetor 
+#include <string>   // manipulação de strings
+#include <algorithm> // funções algorítmicas, como busca e ordenação
+#include <limits>// Para limpar o buffer de entrada
 
 using namespace std;
 
