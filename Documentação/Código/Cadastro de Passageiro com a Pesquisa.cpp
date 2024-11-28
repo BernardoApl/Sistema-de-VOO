@@ -3,7 +3,7 @@
 #include <vector>   // container de vetor 
 #include <string>   // manipulação de strings
 #include <algorithm> // funções algorítmicas, como busca e ordenação
-#include <limits>// Para limpar o buffer de entrada
+#include <limits> // Para limpar o buffer de entrada
 
 using namespace std;
 
@@ -13,6 +13,8 @@ struct Passageiro {
     char nome[100]; // Array fixo para manipulação binária
     char endereco[200];
     int telefone;
+    int quantidade_voos; // Novo campo para a quantidade de voos
+    int pontos_fidelidade; // Novo campo para os pontos de fidelidade
 };
 
 struct Voo {
@@ -30,6 +32,7 @@ public:
     void buscar_passageiro(int codigo);
     void listar_voos_passageiro(int codigo_passageiro);
     const vector<Passageiro>& get_passageiros() const; // Método público para acessar passageiros
+    void atualizar_pontos_fidelidade(int codigo_passageiro);
 
 private:
     vector<Passageiro> passageiros;
@@ -86,6 +89,8 @@ void GerenciadorVoos::buscar_passageiro(int codigo) {
             cout << "Nome: " << passageiro.nome << endl;
             cout << "Endereço: " << passageiro.endereco << endl;
             cout << "Telefone: " << passageiro.telefone << endl;
+            cout << "Quantidade de voos: " << passageiro.quantidade_voos << endl;
+            
             return;
         }
     }
@@ -94,7 +99,7 @@ void GerenciadorVoos::buscar_passageiro(int codigo) {
 
 void GerenciadorVoos::listar_voos_passageiro(int codigo_passageiro) {
     bool encontrou_voo = false;
-    
+
     for (const Voo& voo : voos) {
         if (find(voo.passageiros.begin(), voo.passageiros.end(), codigo_passageiro) != voo.passageiros.end()) {
             cout << "Voo encontrado:" << endl;
@@ -112,6 +117,25 @@ void GerenciadorVoos::listar_voos_passageiro(int codigo_passageiro) {
     }
 }
 
+void GerenciadorVoos::atualizar_pontos_fidelidade(int codigo_passageiro) {
+    bool encontrou = false; // Verifica se o passageiro foi encontrado no arquivo binario
+    for (Passageiro& passageiro : passageiros) {
+        if (passageiro.codigo == codigo_passageiro) {
+            encontrou = true; // Se encontrou torna verdadeiro
+            passageiro.pontos_fidelidade = passageiro.quantidade_voos * 10; // Calcula os pontos de fidelidade
+            cout << "O passageiro de código " << codigo_passageiro << " tem " 
+                 << passageiro.pontos_fidelidade << " pontos" << endl; 
+            break;
+        }
+    }
+
+    if (!encontrou) { // Caso nenhum passageiro com o código tenha sido encontrado
+        cerr << "Erro: Não existe um passageiro com o código " << codigo_passageiro << " ainda." << endl;
+    }
+}
+
+
+
 const vector<Passageiro>& GerenciadorVoos::get_passageiros() const {
     return passageiros;
 }
@@ -120,11 +144,23 @@ const vector<Passageiro>& GerenciadorVoos::get_passageiros() const {
 template <typename T>
 bool ler_inteiro(T& num) {
     while (!(cin >> num)) {
-        cout << "Entrada inválida. Por favor, digite um número." << endl;
+        cout << "Entrada inválida. Digite somente numeros." << endl;
         cin.clear(); // Faz a limpeza da falha de entrada
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora a linha atual
     }
     return true;
+}
+
+// Função para perguntar ao usuário a quantidade de voos realizados
+void pedir_quantidade_voos(Passageiro& passageiro) {
+    while (true) {
+        cout << "Quantos voos o passageiro realizou? ";
+        if (ler_inteiro(passageiro.quantidade_voos) && passageiro.quantidade_voos >= 0) {
+            break;
+        } else {
+            cout << "Entrada inválida. Digite somente numeros inteiro não negativo." << endl;
+        }
+    }
 }
 
 int main() {
@@ -132,15 +168,18 @@ int main() {
     gerenciador.ler_dados_arquivos();
 
     int opcao1;
+    // Menu principal do codigo 
     do {
         cout << "\n=== Sistema de Gestão de Voos ===\n";
         cout << "1. Cadastrar Passageiro\n";
         cout << "7. Pesquisa\n";
+        cout << "8. Programa de Fidelidade\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opção: ";
         ler_inteiro(opcao1); // Garante que a opção seja um número inteiro
 
         switch (opcao1) {
+            // Cadastro de passageiro
             case 1: {
                 CadastroPassageiro cadastro;
                 Passageiro passageiro;
@@ -159,7 +198,7 @@ int main() {
                     }
 
                     if (codigoExistente) {
-                        cout << "Digite outro código para fazer o cadastro ou Digite 0 para voltar ao menu principal.\n";
+                        cout << "Digite um numero maior que 1 para continuar ou Digite 0 para voltar ao menu principal.\n";
                         ler_inteiro(passageiro.codigo);
                         if (passageiro.codigo == 0) break;
                         continue;
@@ -170,8 +209,11 @@ int main() {
                     cin.getline(passageiro.nome, sizeof(passageiro.nome));
                     cout << "Digite o endereço do passageiro: ";
                     cin.getline(passageiro.endereco, sizeof(passageiro.endereco));
-                    cout << "Digite o Nº de telefone do passageiro: ";
+                    cout << "Digite o Nº de telefone do passageiro: \n (31) ";
                     ler_inteiro(passageiro.telefone);  // Validação de telefone numérico
+
+                    // Pergunta pela quantidade de voos
+                    pedir_quantidade_voos(passageiro);
 
                     sucesso = cadastro.cadastrar("passageiros.bin", passageiro);
                     if (sucesso) {
@@ -185,6 +227,7 @@ int main() {
             }
 
             case 7: {
+                // Pesquisa do passageiro pelos codigos
                 int opcao, codigo;
                 do {
                     cout << "\n=== Sistema de Gestão de Voos ===\n";
@@ -215,6 +258,15 @@ int main() {
                             cout << "Opção inválida! Tente novamente.\n";
                     }
                 } while (opcao != 0);
+                break;
+            }
+
+            case 8: {
+                int codigo;
+                cout << "\n=== Programa de Fidelidade ===\n";
+                cout << "Digite o código do passageiro: ";
+                ler_inteiro(codigo);
+                gerenciador.atualizar_pontos_fidelidade(codigo);
                 break;
             }
 
