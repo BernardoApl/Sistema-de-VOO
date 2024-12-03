@@ -1,3 +1,4 @@
+#include "tripulacao.h"
 #include <fstream>
 #include <iostream>
 #include <string>
