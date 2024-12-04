@@ -1,9 +1,8 @@
-
 #include <iostream> // entrada e saída de dados
 #include <fstream>  // manipulação de arquivos (leitura e escrita)
 #include <string>   // manipulação de strings
 #include <vector>   // manipulação de listas
-#include <limits>   // paa limpar o buffer de entrada
+#include <limits>   // para limpar o buffer de entrada
 
 using namespace std;
 
@@ -94,48 +93,69 @@ int main() {
 
     int opcao;
     do {
-       
-        cout << "1. Buscar Passageiro\n";
-        cout << "2. Buscar Tripulante\n";
+
+        cout << "7. Pesquisa\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opção: ";
         ler_inteiro(opcao);
 
         switch (opcao) {
-            case 1: {
-                int codigo;
-                cout << "Digite o código do passageiro: ";
-                ler_inteiro(codigo);
+            case 7: {
+                int subopcao;
+                do {
+                    cout << "\n=== Sistema de Pesquisa ===\n";
+                    cout << "1. Buscar Passageiro\n";
+                    cout << "2. Buscar Tripulante\n";
+                    cout << "0. Voltar\n";
+                    cout << "Escolha uma opção: ";
+                    ler_inteiro(subopcao);
 
-                Passageiro* passageiro = cadastro.buscar_passageiro(passageiros, codigo);
-                if (passageiro) {
-                    cout << "\nPassageiro encontrado:\n";
-                    cout << "Código: " << passageiro->codigo << "\n";
-                    cout << "Nome: " << passageiro->nome << "\n";
-                    cout << "Endereço: " << passageiro->endereco << "\n";
-                    cout << "Telefone: " << passageiro->telefone << "\n";
-                    cout << "Quantidade de voos: " << passageiro->quantidade_voos << "\n";
-                } else {
-                    cout << "Passageiro não encontrado." << endl;
-                }
-                break;
-            }
+                    switch (subopcao) {
+                        case 1: {
+                            int codigo;
+                            cout << "Digite o código do passageiro: ";
+                            ler_inteiro(codigo);
 
-            case 2: {
-                int codigo;
-                cout << "Digite o código do tripulante: ";
-                ler_inteiro(codigo);
+                            Passageiro* passageiro = cadastro.buscar_passageiro(passageiros, codigo);
+                            if (passageiro) {
+                                cout << "\nPassageiro encontrado:\n";
+                                cout << "Código: " << passageiro->codigo << "\n";
+                                cout << "Nome: " << passageiro->nome << "\n";
+                                cout << "Endereço: " << passageiro->endereco << "\n";
+                                cout << "Telefone: " << passageiro->telefone << "\n";
+                                cout << "Quantidade de voos: " << passageiro->quantidade_voos << "\n";
+                            } else {
+                                cout << "Passageiro não encontrado." << endl;
+                            }
+                            break;
+                        }
 
-                Tripulacao* tripulante = cadastro.buscar_tripulante(tripulantes, codigo);
-                if (tripulante) {
-                    cout << "\nTripulante encontrado:\n";
-                    cout << "Código: " << tripulante->codigo << "\n";
-                    cout << "Nome: " << tripulante->nome << "\n";
-                    cout << "Telefone: " << tripulante->telefone << "\n";
-                    cout << "Cargo: " << tripulante->cargo << "\n";
-                } else {
-                    cout << "Tripulante não encontrado." << endl;
-                }
+                        case 2: {
+                            int codigo;
+                            cout << "Digite o código do tripulante: ";
+                            ler_inteiro(codigo);
+
+                            Tripulacao* tripulante = cadastro.buscar_tripulante(tripulantes, codigo);
+                            if (tripulante) {
+                                cout << "\nTripulante encontrado:\n";
+                                cout << "Código: " << tripulante->codigo << "\n";
+                                cout << "Nome: " << tripulante->nome << "\n";
+                                cout << "Telefone: " << tripulante->telefone << "\n";
+                                cout << "Cargo: " << tripulante->cargo << "\n";
+                            } else {
+                                cout << "Tripulante não encontrado." << endl;
+                            }
+                            break;
+                        }
+
+                        case 0:
+                            cout << "Voltando ao menu principal..." << endl;
+                            break;
+
+                        default:
+                            cout << "Opção inválida. Tente novamente." << endl;
+                    }
+                } while (subopcao != 0);
                 break;
             }
 
