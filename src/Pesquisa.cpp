@@ -3,7 +3,7 @@
 #include <fstream>  // manipulação de arquivos (leitura e escrita)
 #include <string>   // manipulação de strings
 #include <vector>   // manipulação de listas
-#include <limits>   // para limpar o buffer de entrada
+#include <limits>   // paa limpar o buffer de entrada
 
 using namespace std;
 
