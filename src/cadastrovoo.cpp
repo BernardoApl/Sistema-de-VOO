@@ -2,22 +2,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "cadastrovoo.h"
 
 using namespace std;
-
-struct Voos {
-  int codigo;
-  string data; // dd/mm/yyyy
-  string hora; // hh:mm
-  string origem;
-  string destino;
-  string codigoAviao;
-  string codigoPiloto;
-  string codigoCopiloto;
-  string codigoComissario;
-  double tarifa;
-};
-
 
 void salvarVoo(const Voos &voo) {
   ofstream arquivo("voos.dat", ios::binary | ios::app);
@@ -195,34 +182,4 @@ void cadastrarVoo() {
 
   salvarVoo(voo);
   cout << "Voo cadastrado com sucesso!" << endl;
-}
-
-void menu() {
-  int opcao;
-  do {
-    cout << "1. Cadastrar Voos" << endl;
-    cout << "2. Listar Voos" << endl;
-    cout << "0. Sair" << endl;
-    cout << "Escolha uma opcao: ";
-    cin >> opcao;
-
-    switch (opcao) {
-    case 1:
-      cadastrarVoo();
-      break;
-    case 2:
-      exibirVoos();
-      break;
-    case 0:
-      cout << "Saindo..." << endl;
-      break;
-    default:
-      cout << "Opção inválida!" << endl;
-    }
-  } while (opcao != 0);
-}
-
-int main() {
-  menu();
-  return 0;
 }

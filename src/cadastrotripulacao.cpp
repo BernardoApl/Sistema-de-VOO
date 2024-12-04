@@ -1,17 +1,10 @@
-#include "tripulacao.h"
+#include "cadastrotripulacao.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
-
-struct Tripulacao {
-  int codigo;
-  string nome;
-  string telefone;
-  string cargo; // 1 - piloto, 2 - co-piloto, 3 - comissario
-};
 
 void salvarTripulacao(const Tripulacao &tripulacao) {
   ofstream arquivo("tripulacao.dat", ios::binary | ios::app);
@@ -156,34 +149,4 @@ void cadastrarTripulante() {
   getline(cin, tripulacao.telefone);
   salvarTripulacao(tripulacao);
   cout << "Tripulante castrado com sucesso!" << endl;
-}
-
-void menu() {
-  int opcao;
-  do {
-    cout << "1. Cadastrar Tripulante" << endl;
-    cout << "2. Listar Tripulantes" << endl;
-    cout << "0. Sair" << endl;
-    cout << "Escolha uma opcao: ";
-    cin >> opcao;
-
-    switch (opcao) {
-    case 1:
-      cadastrarTripulante();
-      break;
-    case 2:
-      exibirTripulantes();
-      break;
-    case 0:
-      cout << "Saindo..." << endl;
-      break;
-    default:
-      cout << "Opção inválida!" << endl;
-    }
-  } while (opcao != 0);
-}
-
-int main() {
-  menu();
-  return 0;
 }

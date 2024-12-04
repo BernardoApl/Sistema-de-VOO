@@ -1,21 +1,21 @@
 
-#include <iostream> // entrada e saída de dados
-#include <fstream>  // manipulação de arquivos (leitura e escrita)
-#include <vector>   // container de vetor 
-#include <string>   // manipulação de strings
-#include <algorithm> // funções algorítmicas, como busca e ordenação
-#include <limits> // Para limpar o buffer de entrada
+#include <iostream> 
+#include <fstream> 
+#include <vector>   
+#include <string>   
+#include <algorithm> 
+#include <limits> 
+#include "fidelidade.h"
 
 using namespace std;
 
-// Estruturas para mostrar dados
 struct Passageiro {
     int codigo;
-    char nome[100]; // Array fixo para manipulação binária
+    char nome[100]; 
     char endereco[200];
     int telefone;
-    int quantidade_voos; // Novo campo para a quantidade de voos
-    int pontos_fidelidade; // Novo campo para os pontos de fidelidade
+    int quantidade_voos; 
+    int pontos_fidelidade; 
 };
 
 struct Voo {
@@ -31,17 +31,16 @@ struct Tripulacao {
   int codigo;
   string nome;
   string telefone;
-  string cargo; // 1 - piloto, 2 - co-piloto, 3 - comissario
+  string cargo; 
 };
 
 
-// Função para garantir que a entrada seja um número inteiro
 template <typename T>
 bool ler_inteiro(T& num) {
     while (!(cin >> num)) {
         cout << "Entrada inválida. Digite somente numeros." << endl;
-        cin.clear(); // Faz a limpeza da falha de entrada
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora a linha atual
+        cin.clear(); 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
     }
     return true;
 }
@@ -51,9 +50,9 @@ public:
     void buscar_passageiro(int codigo);
     void listar_voos_passageiro(int codigo_passageiro);
     void buscar_tripulante(int codigo);
-    void cadastrar_voo(); // Novo método para cadastrar voos
-    void listar_voos(); // Novo método para listar voos
-    const vector<Passageiro>& get_passageiros() const; // Método público para acessar passageiros
+    void cadastrar_voo(); 
+    void listar_voos(); 
+    const vector<Passageiro>& get_passageiros() const;
     void atualizar_pontos_fidelidade(int codigo_passageiro);
 
 private:
@@ -100,18 +99,18 @@ void GerenciadorVoos::ler_dados_arquivos() {
 
 
 void GerenciadorVoos::atualizar_pontos_fidelidade(int codigo_passageiro) {
-    bool encontrou = false; // Verifica se o passageiro foi encontrado no arquivo binario
+    bool encontrou = false;
     for (Passageiro& passageiro : passageiros) {
         if (passageiro.codigo == codigo_passageiro) {
-            encontrou = true; // Se encontrou torna verdadeiro
-            passageiro.pontos_fidelidade = passageiro.quantidade_voos * 10; // Calcula os pontos de fidelidade
+            encontrou = true; 
+            passageiro.pontos_fidelidade = passageiro.quantidade_voos * 10; 
             cout << "O passageiro de código " << codigo_passageiro << " tem " 
                  << passageiro.pontos_fidelidade << " pontos" << endl; 
             break;
         }
     }
 
-    if (!encontrou) { // Caso nenhum passageiro com o código tenha sido encontrado
+    if (!encontrou) { 
         cerr << "Erro: Não existe um passageiro com o código " << codigo_passageiro << " ainda." << endl;
     }
 }
@@ -125,7 +124,6 @@ const vector<Passageiro>& GerenciadorVoos::get_passageiros() const {
 
 
 
-// Função para perguntar ao usuário a quantidade de voos realizados
 void pedir_quantidade_voos(Passageiro& passageiro) {
     while (true) {
         cout << "Quantos voos o passageiro realizou? ";
@@ -142,17 +140,14 @@ int main() {
     gerenciador.ler_dados_arquivos();
 
     int opcao1;
-    // Menu principal do código
     do {
         
         cout << "8. Programa de Fidelidade\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opção: ";
-        ler_inteiro(opcao1); // Garante que a opção seja um número inteiro
+        ler_inteiro(opcao1); 
 
         switch (opcao1) {
-            // Cadastro de passageiro
-
             case 8: {
                 int codigo;
                 cout << "\n=== Programa de Fidelidade ===\n";

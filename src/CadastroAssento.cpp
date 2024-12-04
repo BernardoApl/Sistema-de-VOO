@@ -2,64 +2,40 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include "cadastroassento.h"
 
 using namespace std;
-
-struct Voo
-{
-    int codigoVoo;        // Código único do voo
-    string dataHora;      // Data e hora do voo no formato string
-    string origem;        // Origem do voo
-    string destino;       // Destino do voo
-    int codigoAviao;      // Código do avião
-    int codigoPiloto;     // Código do piloto responsável
-    int codigoCopiloto;   // Código do copiloto responsável
-    int codigoComissario; // Código do comissário responsável
-    bool status;          // Status do voo: true (ativo) ou false (inativo)
-    double tarifa;        // Tarifa do voo
-};
-
-struct Assento
-{
-    int numeroAssento; // Número do assento
-    int codigoVoo;     // Código do voo associado
-    bool status;       // Status do assento: true (ocupado) ou false (livre)
-};
 
 class CompanhiaAerea
 {
 private:
-    string arquivoVoos = "voos.dat";         // Arquivo para armazenar voos
-    string arquivoAssentos = "assentos.dat"; // Arquivo para armazenar assentos
+    string arquivoVoos = "voos.dat";         
+    string arquivoAssentos = "assentos.dat"; 
 
 public:
-    // Verifica se um voo existe e está ativo no arquivo de voos
     bool vooExiste(int codigo)
     {
-        ifstream file(arquivoVoos, ios::binary); // Abre o arquivo de voos em modo binário
+        ifstream file(arquivoVoos, ios::binary);
         if (!file.is_open())
-        { // Verifica se o arquivo foi aberto com sucesso
+        { 
             cout << "Erro ao abrir o arquivo de voos.\n";
-            return false; // Retorna falso caso não consiga abrir
+            return false;
         }
 
-        Voo voo; // Declara um objeto Voo para leitura
+        Voo voo; 
         while (file.read(reinterpret_cast<char *>(&voo), sizeof(Voo)))
         {
-            // Lê os dados de um voo do arquivo
-            if (voo.codigoVoo == codigo && voo.status)
+            if (voo.codigoVoo == codigo)
             {
-                // Verifica se o código do voo coincide e se ele está ativo
-                file.close(); // Fecha o arquivo antes de retornar
-                return true;  // Retorna verdadeiro se o voo existe e está ativo
+                file.close(); 
+                return true;  /
             }
         }
 
-        file.close(); // Fecha o arquivo após a leitura
-        return false; // Retorna falso se o voo não foi encontrado ou está inativo
+        file.close(); 
+        return false; 
     }
 
-    // Cadastra os assentos de um voo
     void cadastrarAssentos()
     {
         int codigoVoo;
@@ -67,7 +43,7 @@ public:
         cin >> codigoVoo;
 
         if (!vooExiste(codigoVoo))
-        { // Verifica se o voo existe e está ativo
+        { 
             cout << "Voo nao encontrado ou nao esta ativo.\n";
             return;
         }
@@ -79,10 +55,9 @@ public:
         vector<Assento> assentos;
         for (int i = 1; i <= quantidadeAssentos; ++i)
         {
-            assentos.push_back({i, codigoVoo, false}); // Cria assentos com status livre
+            assentos.push_back({i, codigoVoo, false}); 
         }
 
-        // Salva os assentos no arquivo binário
         ofstream file(arquivoAssentos, ios::binary | ios::app);
         if (!file.is_open())
         {

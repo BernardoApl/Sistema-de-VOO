@@ -1,21 +1,12 @@
-#include <iostream> // entrada e saída de dados
-#include <fstream>  // manipulação de arquivos (leitura e escrita)
-#include <string>   // manipulação de strings
-#include <vector>   // manipulação de listas
-#include <limits>   // para limpar o buffer de entrada
+#include <iostream>
+#include <fstream> 
+#include <string> 
+#include <vector> 
+#include <limits> 
+#include "cadastropassageiro.h"
 
 using namespace std;
 
-// Estrutura para armazenar os dados do passageiro
-struct Passageiro {
-    int codigo;
-    char nome[100];
-    char endereco[200];
-    int telefone;
-    int quantidade_voos;
-};
-
-// Classe para realizar o cadastro de passageiros
 class CadastroPassageiro {
 public:
     vector<Passageiro> carregar_passageiros(const string& arquivo) {
@@ -49,7 +40,6 @@ public:
     }
 };
 
-// Função para garantir que a entrada seja um número inteiro
 template <typename T>
 bool ler_inteiro(T& num) {
     while (!(cin >> num)) {
@@ -60,7 +50,6 @@ bool ler_inteiro(T& num) {
     return true;
 }
 
-// Função principal
 int main() {
     CadastroPassageiro cadastro;
     string arquivo = "passageiros.bin";
