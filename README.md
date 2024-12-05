@@ -19,3 +19,8 @@ O desenvolvimento segue a metodologia Scrum, estruturado em backlog.
 
 Estrutura do Projeto
 Modularidade: 
+
+Para executar os testes baixar:
+https://cmake.org/download/
+e rodar o comando:
+run_tests
