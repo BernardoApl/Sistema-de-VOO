@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/cadastrotripulacao.h" 
+#include "../src/main.h" 
 
 TEST(TripulacaoTest, GerarCodigoTripulacao) {
     int codigo = gerarCodigoTripulacao();

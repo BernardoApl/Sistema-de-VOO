@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/cadastrovoo.h"
+#include "../src/main.h" 
 
 TEST(CadastroVooTest, GerarCodigoVoo) {
     int codigo = gerarCodigoVoo();

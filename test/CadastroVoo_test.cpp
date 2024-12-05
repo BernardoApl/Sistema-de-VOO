@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "voo.h"  
+#include "../src/main.h" 
 
 using namespace std;
 
