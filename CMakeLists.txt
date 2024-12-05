@@ -18,8 +18,7 @@ include_directories(src)
 file(GLOB TEST_FILES test/*.cpp)
 
 # Criação do executável de teste
-add_executable(run_tests ${TEST_FILES} src/cadastrotripulcao.cpp)
-add_executable(run_tests ${TEST_FILES} src/cadastrovoo.cpp)
+add_executable(run_tests ${TEST_FILES} src/main.cpp)
 
 
 # Linkar o Google Test e o Google Mock com o projeto de testes
@@ -30,4 +29,11 @@ enable_testing()
 
 # Adicionar os testes
 add_test(NAME tripulacao_tests COMMAND run_tests)
-add_test(NAME voos_tests COMMAND test_voos)
+add_test(NAME voos_tests COMMAND run_tests)
+add_test(NAME Baixaemreserva_test COMMAND run_tests)
+add_test(NAME CadastroVoo_test COMMAND run_tests)
+add_test(NAME PesquisaPassageiro_test COMMAND run_tests)
+add_test(NAME PesquisaTripulante_test COMMAND run_tests)
+add_test(NAME ProgramaFidelidade_test COMMAND run_tests)
+add_test(NAME Reserva_Test COMMAND run_tests)
+
